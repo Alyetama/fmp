@@ -1,4 +1,4 @@
-# fpy
+# fmtpy
 
 Uses yapf to format python files, but with properly sorted import statemnts.
 
@@ -9,13 +9,13 @@ Uses yapf to format python files, but with properly sorted import statemnts.
 ## Installation
 
 ```
-pip install fpy
+pip install fmtpy
 ```
 
 ## Usage
 
 ```
-usage: fpy [-h] [-s {pep8,google,yapf,facebook}] [-i] [-o] [-n]
+usage: fmtpy [-h] [-s {pep8,google,yapf,facebook}] [-i] [-o] [-n]
            files [files ...]
 
 positional arguments:

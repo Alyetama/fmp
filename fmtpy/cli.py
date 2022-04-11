@@ -1,4 +1,4 @@
-from .fpy import main as _main, opts
+from .fmtpy import main as _main, opts
 
 
 def main():

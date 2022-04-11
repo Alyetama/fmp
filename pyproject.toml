@@ -3,7 +3,7 @@ requires = ["flit_core >=3.2,<4"]
 build-backend = "flit_core.buildapi"
 
 [project]
-name = "fpy"
+name = "fmtpy"
 authors = [{name = "Alyetama", email = "56323389+Alyetama@users.noreply.github.com"}]
 readme = "README.md"
 license = {file = "LICENSE"}
@@ -17,7 +17,7 @@ dependencies = [
 ]
 
 [project.urls]
-Home = "https://github.comm/Alyetama/fpy"
+Home = "https://github.comm/Alyetama/fmtspy"
 
 [project.scripts]
-fpy = "fpy:cli.main"
+fmtpy = "fmtpy:cli.main"
