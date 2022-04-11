@@ -33,4 +33,4 @@ optional arguments:
 
 ## Exampls
 
-[![asciicast](https://asciinema.org/a/gsPwjiEGMzQZkDjF4eExzwpm2.svg)](https://asciinema.org/a/gsPwjiEGMzQZkDjF4eExzwpm2)
+[![asciicast](https://asciinema.org/a/Bjc8ZEw62bXRnKC0v29HOBOHU.svg)](https://asciinema.org/a/Bjc8ZEw62bXRnKC0v29HOBOHU)
