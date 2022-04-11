@@ -1,6 +1,6 @@
 # fpy
 
-yapf, but with properly sorted import statemnts.
+Uses yapf to format python files, but with properly sorted import statemnts.
 
 ## Requirements
 
