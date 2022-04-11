@@ -119,7 +119,7 @@ def main(file_path, only_imports, in_place, show_line_numbers, style, *args,
     out_file = sort_imports(file_path, only_imports)
     reformatted_code, _ = FormatCode(''.join(out_file), style_config=style)
 
-    if in_place and not only_imports:
+    if in_place and only_imports:
         raise TypeError(
             'Can\'t use `--only-imports` and `--in-place` together!')
     if in_place:
