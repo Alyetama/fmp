@@ -50,6 +50,9 @@ def sort_imports(file_path, only_imports=False):
                 non_imports.append(line)
             continue
 
+        if '.' in module_name:
+            module_name = module_name.split('.')[0]
+
         spec = importlib.util.find_spec(module_name)
         if spec:
             if module_name in std_lib_names:
