@@ -1,6 +1,6 @@
 # fmtpy
 
-Uses yapf to format python files, but with properly sorted import statemnts.
+Uses [yapf](https://github.com/google/yapf) and [autoflake](https://github.com/PyCQA/autoflake) to format python files, but with properly sorted import statements.
 
 ## Requirements
 
@@ -15,8 +15,8 @@ pip install fmtpy
 ## Usage
 
 ```
-usage: fmtpy [-h] [-s {pep8,google,yapf,facebook}] [-i] [-o] [-n]
-           files [files ...]
+usage: fmtpy [-h] [-s {pep8,google,yapf,facebook}] [-i] [-o] [-n] [-k]
+             files [files ...]
 
 positional arguments:
   files                 files to format
@@ -29,8 +29,10 @@ optional arguments:
   -o, --only-imports    Only return sorted import statements
   -n, --show-line-numbers
                         Render a column for line numbers
+  -k, --keep-external-unused-imports
+                        Keep the import statement of external unused modules
 ```
 
-## Exampls
+## Examples
 
-[![asciicast](https://asciinema.org/a/Bjc8ZEw62bXRnKC0v29HOBOHU.svg)](https://asciinema.org/a/Bjc8ZEw62bXRnKC0v29HOBOHU)
+[![Examples](static/examples.gif)](https://asciinema.org/a/QwXWTTnU95Fw2YFihSWVVvR8F)
