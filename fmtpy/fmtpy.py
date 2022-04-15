@@ -56,18 +56,19 @@ def sort_imports(file_path, only_imports=False, keep_external_unused_imports=Fal
     non_imports = []
     top_lines = []
     std_lib_names = get_std_library_names()
+    imports_start = False
 
     for line in lines:
-        if (line.startswith('#!')
-                and 'python' in line) or (line.startswith('#')
-                                          and 'coding:' in line):
+        if line.startswith('import '):
+            imports_start = True
+            module_name = line.split('import ')[1].strip().replace('\n', '')
+        elif line.startswith('from ') and ' import ' in line:
+            imports_start = True
+            module_name = line.split('from')[1].split('import')[0].strip()
+        elif not imports_start:
             if not only_imports:
                 top_lines.append(line)
             continue
-        if line.startswith('import '):
-            module_name = line.split('import ')[1].strip().replace('\n', '')
-        elif line.startswith('from ') and ' import ' in line:
-            module_name = line.split('from')[1].split('import')[0].strip()
         else:
             if not only_imports:
                 non_imports.append(line)
@@ -89,7 +90,7 @@ def sort_imports(file_path, only_imports=False, keep_external_unused_imports=Fal
                 else:
                     imports['partial_std_lib_imports'].append(line)
             else:
-                if spec and (Path(spec.loader.path).parent == Path(
+                if spec and spec.loader and (Path(spec.loader.path).parent == Path(
                         Path(file_path).absolute()).parent):
 
                     if line.startswith('import '):
