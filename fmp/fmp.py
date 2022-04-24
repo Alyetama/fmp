@@ -192,4 +192,3 @@ if __name__ == '__main__':
     args = opts()
     for file in args.files:
         main(file, **vars(args))
-        print()
