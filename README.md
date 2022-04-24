@@ -1,8 +1,6 @@
-# fmp
+# fmp: (F)or(m)at(P)ython
 
-**F**or**m**at**P**ython
-
-Uses [yapf](https://github.com/google/yapf) and [autoflake](https://github.com/PyCQA/autoflake) to format python files, but **with properly sorted import statements**.
+Uses [yapf](https://github.com/google/yapf) and [autoflake](https://github.com/PyCQA/autoflake) to format python files, but ***with properly sorted import statements***.
 
 ## Requirements
 
