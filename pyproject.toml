@@ -18,7 +18,7 @@ dependencies = [
 ]
 
 [project.urls]
-Home = "https://github.comm/Alyetama/fmp"
+Home = "https://github.com/Alyetama/fmp"
 
 [project.scripts]
 fmp = "fmp:cli.main"
