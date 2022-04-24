@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# coding: utf-8
+
 import argparse
 import ast
 import collections
@@ -16,8 +19,8 @@ from rich.syntax import Syntax
 from yapf.yapflib.yapf_api import FormatCode
 
 
-def get_std_library_names():
-    dotfile = f'{Path().home()}/.fmtpy'
+def get_std_library_names() -> list:
+    dotfile = f'{Path().home()}/.fmp'
     if Path(dotfile).exists():
         with open(dotfile) as j:
             loaded_dotfile = json.load(j)
@@ -25,7 +28,7 @@ def get_std_library_names():
                 return loaded_dotfile[1]
     result = requests.get(
         'https://github.com/python/cpython/tree/main/Doc/library')
-    soup = BeautifulSoup(result.text, features="lxml")
+    soup = BeautifulSoup(result.text, features='html.parser')
     rst_files = soup.find_all(title=re.compile(r'\.rst$'))
     names = [i.extract().get_text() for i in rst_files]
     std_lib_names = []
@@ -38,7 +41,9 @@ def get_std_library_names():
     return std_lib_names_list
 
 
-def sort_imports(file_path, only_imports=False, keep_external_unused_imports=False):
+def sort_imports(file_path: str,
+                 only_imports: bool = False,
+                 keep_external_unused_imports: bool = False) -> list:
     with tempfile.NamedTemporaryFile() as fp:
         with open(file_path, 'rb') as f:
             fp.write(f.read())
@@ -46,7 +51,10 @@ def sort_imports(file_path, only_imports=False, keep_external_unused_imports=Fal
         if keep_external_unused_imports:
             options = ['--in-place', '--ignore-init-module-imports']
         else:
-            options = ['--remove-all-unused-imports', '--ignore-init-module-imports', '--in-place']
+            options = [
+                '--remove-all-unused-imports', '--ignore-init-module-imports',
+                '--in-place'
+            ]
         _main([None, *options, fp.name],
               standard_out=sys.stdout,
               standard_error=sys.stderr)
@@ -74,8 +82,11 @@ def sort_imports(file_path, only_imports=False, keep_external_unused_imports=Fal
                 non_imports.append(line)
             continue
 
-        if '.' in module_name and 'from .' not in line and 'from .' not in line:
+        if '.' in module_name and 'from .' not in line:
             module_name = module_name.split('.')[0]
+            if Path(f'{Path(file_path).parent}/{module_name}').is_dir():
+                imports['partial_relative_imports'].append(line)
+                continue
 
         valid_import = isinstance(
             ast.parse(line).body[0], (ast.ImportFrom, ast.Import))
@@ -90,8 +101,9 @@ def sort_imports(file_path, only_imports=False, keep_external_unused_imports=Fal
                 else:
                     imports['partial_std_lib_imports'].append(line)
             else:
-                if spec and spec.loader and (Path(spec.loader.path).parent == Path(
-                        Path(file_path).absolute()).parent):
+                if spec and spec.loader and (Path(
+                        spec.loader.path).parent == Path(
+                            Path(file_path).absolute()).parent):
 
                     if line.startswith('import '):
                         imports['relative_imports'].append(line)
@@ -122,7 +134,7 @@ def sort_imports(file_path, only_imports=False, keep_external_unused_imports=Fal
     return sum(out_file, [])
 
 
-def opts():
+def opts() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument('-s',
                         '--style',
@@ -142,18 +154,21 @@ def opts():
                         '--show-line-numbers',
                         help='Render a column for line numbers',
                         action='store_true')
-    parser.add_argument('-k',
-                        '--keep-external-unused-imports',
-                        help='Keep the import statement of external unused modules',
-                        action='store_true')
-    parser.add_argument('files', nargs='+', help='files to format')
+    parser.add_argument(
+        '-k',
+        '--keep-external-unused-imports',
+        help='Keep the import statement of external unused modules',
+        action='store_true')
+    parser.add_argument('files', nargs='+', help='Files to format')
 
     return parser.parse_args()
 
 
-def main(file_path, only_imports, in_place, show_line_numbers, style, keep_external_unused_imports, *args,
-         **kwargs):
-    out_file = sort_imports(file_path, only_imports, keep_external_unused_imports)
+def main(file_path: str, only_imports: bool, in_place: bool,
+         show_line_numbers: bool, style: str,
+         keep_external_unused_imports: bool, **kwargs: str) -> None:
+    out_file = sort_imports(file_path, only_imports,
+                            keep_external_unused_imports)
     reformatted_code, _ = FormatCode(''.join(out_file), style_config=style)
 
     if in_place and only_imports:
@@ -161,17 +176,20 @@ def main(file_path, only_imports, in_place, show_line_numbers, style, keep_exter
             'Can\'t use `--only-imports` and `--in-place` together!')
     if in_place:
         with open(file_path, 'w') as f:
-            f.writelines(reformatted_code)
+            f.write(reformatted_code)
     else:
         console = Console()
         console.print(
             Syntax(reformatted_code,
                    'python',
                    line_numbers=show_line_numbers,
-                   theme='dracula'))
+                   theme='ansi_dark',
+                   background_color='#282C34'))
+    return reformatted_code
 
 
 if __name__ == '__main__':
     args = opts()
     for file in args.files:
         main(file, **vars(args))
+        print()

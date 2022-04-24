@@ -1,3 +1,3 @@
 """Formats python files with properly sorted import statemnts"""
 
-__version__ = '0.0.5'
+__version__ = '0.1'

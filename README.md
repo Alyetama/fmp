@@ -1,6 +1,8 @@
-# fmtpy
+# fmp
 
-Uses [yapf](https://github.com/google/yapf) and [autoflake](https://github.com/PyCQA/autoflake) to format python files, but with properly sorted import statements.
+**F**or**m**at**P**ython
+
+Uses [yapf](https://github.com/google/yapf) and [autoflake](https://github.com/PyCQA/autoflake) to format python files, but **with properly sorted import statements**.
 
 ## Requirements
 
@@ -9,13 +11,13 @@ Uses [yapf](https://github.com/google/yapf) and [autoflake](https://github.com/P
 ## Installation
 
 ```
-pip install fmtpy
+pip install fmp
 ```
 
 ## Usage
 
 ```
-usage: fmtpy [-h] [-s {pep8,google,yapf,facebook}] [-i] [-o] [-n] [-k]
+usage: fmp [-h] [-s {pep8,google,yapf,facebook}] [-i] [-o] [-n] [-k]
              files [files ...]
 
 positional arguments:
@@ -35,4 +37,4 @@ optional arguments:
 
 ## Examples
 
-[![Examples](static/examples.gif)](https://asciinema.org/a/QwXWTTnU95Fw2YFihSWVVvR8F)
+[![Examples](static/examples.gif)](https://asciinema.org/a/x8UJrOu8PY7kvMV4UaYbHmrO9)
