@@ -56,7 +56,7 @@ def sort_imports(file_path: str,
                 '--remove-all-unused-imports', '--ignore-init-module-imports',
                 '--in-place'
             ]
-        if not args.keep_unused_imports:
+        if not keep_unused_imports:
             _main([None, *options, fp.name],
                   standard_out=sys.stdout,
                   standard_error=sys.stderr)
