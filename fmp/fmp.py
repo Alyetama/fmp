@@ -43,7 +43,8 @@ def get_std_library_names() -> list:
 
 def sort_imports(file_path: str,
                  only_imports: bool = False,
-                 keep_external_unused_imports: bool = False) -> list:
+                 keep_external_unused_imports: bool = False,
+                 keep_unused_imports: bool = False) -> list:
     with tempfile.NamedTemporaryFile() as fp:
         with open(file_path, 'rb') as f:
             fp.write(f.read())
@@ -55,9 +56,10 @@ def sort_imports(file_path: str,
                 '--remove-all-unused-imports', '--ignore-init-module-imports',
                 '--in-place'
             ]
-        _main([None, *options, fp.name],
-              standard_out=sys.stdout,
-              standard_error=sys.stderr)
+        if not args.keep_unused_imports:
+            _main([None, *options, fp.name],
+                  standard_out=sys.stdout,
+                  standard_error=sys.stderr)
         lines = [x.decode() for x in fp.readlines()]
 
     imports = collections.defaultdict(list)
@@ -154,8 +156,12 @@ def opts() -> argparse.Namespace:
                         '--show-line-numbers',
                         help='Render a column for line numbers',
                         action='store_true')
+    parser.add_argument('-k',
+                        '--keep-unused-imports',
+                        help='Keep the import statement of all unused modules',
+                        action='store_true')
     parser.add_argument(
-        '-k',
+        '-K',
         '--keep-external-unused-imports',
         help='Keep the import statement of external unused modules',
         action='store_true')
@@ -166,9 +172,10 @@ def opts() -> argparse.Namespace:
 
 def main(file_path: str, only_imports: bool, in_place: bool,
          show_line_numbers: bool, style: str,
-         keep_external_unused_imports: bool, **kwargs: str) -> None:
+         keep_external_unused_imports: bool, keep_unused_imports: bool,
+         **kwargs: str) -> None:
     out_file = sort_imports(file_path, only_imports,
-                            keep_external_unused_imports)
+                            keep_external_unused_imports, keep_unused_imports)
     reformatted_code, _ = FormatCode(''.join(out_file), style_config=style)
 
     if in_place and only_imports:
