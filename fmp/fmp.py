@@ -69,12 +69,16 @@ def sort_imports(file_path: str,
     imports_start = False
 
     for line in lines:
+        multi_lines_import = False
+
         if line.startswith('import '):
             imports_start = True
             module_name = line.split('import ')[1].strip().replace('\n', '')
         elif line.startswith('from ') and ' import ' in line:
             imports_start = True
             module_name = line.split('from')[1].split('import')[0].strip()
+            if '(' in line or '\\' in line:
+                multi_lines_import = True
         elif not imports_start:
             if not only_imports:
                 top_lines.append(line)
@@ -90,8 +94,14 @@ def sort_imports(file_path: str,
                 imports['partial_relative_imports'].append(line)
                 continue
 
-        valid_import = isinstance(
-            ast.parse(line).body[0], (ast.ImportFrom, ast.Import))
+        if multi_lines_import:
+            next_line_idx = lines.index(line) + 1
+            next_line = lines[lines.index(line) + 1].strip()
+            lines.remove(lines[next_line_idx])
+            line = f'{line.strip()} {next_line}'
+        else:
+            line_body = ast.parse(line).body[0]
+        valid_import = isinstance(line_body, (ast.ImportFrom, ast.Import))
 
         if valid_import:
             sys.path.insert(0, str(Path(file_path).absolute().parent))
@@ -110,6 +120,25 @@ def sort_imports(file_path: str,
                     if line.startswith('import '):
                         imports['relative_imports'].append(line)
                     elif line.startswith('from ') and ' import ' in line:
+                        if ',' in line:
+                            pimport_names = line.split('import ')[1]
+                            pimport_names = pimport_names.replace(' ', '')
+                            if multi_lines_import and '(' in pimport_names:
+                                pimport_names = pimport_names.split(',')
+                                pimport_names[0] = pimport_names[0][1:]
+                                pimport_names[-1] = pimport_names[-1][:-1]
+                                pimport_names = ', '.join(
+                                    sorted(pimport_names))
+
+                            elif multi_lines_import and '\\' in pimport_names:
+                                pimport_names = pimport_names.replace('\\', '')
+                                pimport_names = ', '.join(
+                                    sorted(pimport_names.split(',')))
+
+                            if multi_lines_import:
+                                pimport_names = '(' + pimport_names + ')'
+
+                            line = f'from {module_name} import {pimport_names}'
                         imports['partial_relative_imports'].append(line)
                 else:
                     if line.startswith('import '):
