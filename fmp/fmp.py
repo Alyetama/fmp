@@ -89,8 +89,14 @@ def sort_imports(file_path: str,
             continue
 
         if '.' in module_name and 'from .' not in line:
-            module_name = module_name.split('.')[0]
-            if Path(f'{Path(file_path).parent}/{module_name}').is_dir():
+            _module_name = module_name.split('.')[0]
+            grandparent = Path('/'.join(file_path.split('/')[:-1]))
+            grand_grandparent = Path('/'.join(file_path.split('/')[:-2]))
+
+            if Path(f'{Path(file_path).parent}/{_module_name}').is_dir() or (
+                    grandparent.is_dir() and grandparent.name == _module_name
+            ) or (grand_grandparent.is_dir()
+                  and grand_grandparent.name == _module_name):
                 imports['partial_relative_imports'].append(line)
                 continue
 
