@@ -18,6 +18,12 @@ from rich.console import Console
 from rich.syntax import Syntax
 from yapf.yapflib.yapf_api import FormatCode
 
+from fmp.__version__ import __version__
+
+
+class DummySpecLoader:
+    loader = ''
+
 
 def get_std_library_names() -> list:
     dotfile = f'{Path().home()}/.fmp'
@@ -111,7 +117,10 @@ def sort_imports(file_path: str,
 
         if valid_import:
             sys.path.insert(0, str(Path(file_path).absolute().parent))
-            spec = importlib.util.find_spec(module_name)
+            try:
+                spec = importlib.util.find_spec(module_name)
+            except ModuleNotFoundError:
+                spec = DummySpecLoader()
 
             if module_name in std_lib_names:
                 if line.startswith('import '):
@@ -173,6 +182,7 @@ def sort_imports(file_path: str,
 
 def opts() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
+    parser.add_argument('files', nargs='+', help='Files to format')
     parser.add_argument('-s',
                         '--style',
                         type=str,
@@ -200,7 +210,10 @@ def opts() -> argparse.Namespace:
         '--keep-external-unused-imports',
         help='Keep the import statement of external unused modules',
         action='store_true')
-    parser.add_argument('files', nargs='+', help='Files to format')
+    parser.add_argument('-v',
+                        '--version',
+                        action='version',
+                        version=f'%(prog)s {__version__}')
 
     return parser.parse_args()
 
@@ -228,9 +241,3 @@ def main(file_path: str, only_imports: bool, in_place: bool,
                    theme='ansi_dark',
                    background_color='#282C34'))
     return reformatted_code
-
-
-if __name__ == '__main__':
-    args = opts()
-    for file in args.files:
-        main(file, **vars(args))

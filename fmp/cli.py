@@ -3,10 +3,10 @@
 
 from rich.console import Console
 
-from .fmp import main as _main, opts
+from fmp.fmp import main, opts
 
 
-def main():
+def _cli():
     args = opts()
     
     for file in args.files:
@@ -14,4 +14,4 @@ def main():
             print()
             Console().rule(file)
 
-        _main(file, **vars(args))
+        main(file, **vars(args))
