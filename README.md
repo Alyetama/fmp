@@ -2,7 +2,7 @@
 
 A Python formatter that uses [yapf](https://github.com/google/yapf) and [autoflake](https://github.com/PyCQA/autoflake) to format python files, but ***with properly sorted import statements***.
 
-[![Supported Python versions](https://img.shields.io/badge/Python-%3E=3.6-blue.svg?logo=python)](https://www.python.org/downloads/) [![PEP8](https://img.shields.io/badge/Code%20style-PEP%208-orange.svg?logo=python)](https://www.python.org/dev/peps/pep-0008/) [![GitHub License](https://img.shields.io/badge/License-MIT-red.svg)](https://github.com/Alyetama/Discord-Backup-Bot/blob/main/LICENSE)
+[![Build](https://github.com/Alyetama/fmp/actions/workflows/poetry-build.yml/badge.svg)](https://github.com/Alyetama/fmp/actions/workflows/poetry-build.yml) [![PyPI version](https://badge.fury.io/py/fmp.svg)](https://badge.fury.io/py/fmp) [![Supported Python versions](https://img.shields.io/badge/Python-%3E=3.6-blue.svg?logo=python)](https://www.python.org/downloads/) [![PEP8](https://img.shields.io/badge/Code%20style-PEP%208-orange.svg?logo=python)](https://www.python.org/dev/peps/pep-0008/) [![GitHub License](https://img.shields.io/badge/License-MIT-red.svg)](https://github.com/Alyetama/Discord-Backup-Bot/blob/main/LICENSE)
 
 ## 🐍 Requirements
 
