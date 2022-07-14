@@ -1,18 +1,20 @@
 # fmp: (F)or(m)at(P)ython
 
-Uses [yapf](https://github.com/google/yapf) and [autoflake](https://github.com/PyCQA/autoflake) to format python files, but ***with properly sorted import statements***.
+A Python formatter that uses [yapf](https://github.com/google/yapf) and [autoflake](https://github.com/PyCQA/autoflake) to format python files, but ***with properly sorted import statements***.
 
-## Requirements
+[![Supported Python versions](https://img.shields.io/badge/Python-%3E=3.6-blue.svg?logo=python)](https://www.python.org/downloads/) [![PEP8](https://img.shields.io/badge/Code%20style-PEP%208-orange.svg?logo=python)](https://www.python.org/dev/peps/pep-0008/) [![GitHub License](https://img.shields.io/badge/License-MIT-red.svg)](https://github.com/Alyetama/Discord-Backup-Bot/blob/main/LICENSE)
+
+## 🐍 Requirements
 
 - [Python>=3.6](https://www.python.org/downloads/)
 
-## Installation
+## ⬇️ Installation
 
 ```
 pip install fmp
 ```
 
-## Usage
+## ⌨️ Usage
 
 ```
 usage: fmp [-h] [-s {pep8,google,yapf,facebook}] [-i] [-o] [-n] [-k]
@@ -33,6 +35,6 @@ optional arguments:
                         Keep the import statement of external unused modules
 ```
 
-## Examples
+## 📕 Examples
 
 [![Examples](static/examples.gif)](https://asciinema.org/a/x8UJrOu8PY7kvMV4UaYbHmrO9)

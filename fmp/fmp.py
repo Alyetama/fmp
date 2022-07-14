@@ -218,9 +218,13 @@ def opts() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def main(file_path: str, only_imports: bool, in_place: bool,
-         show_line_numbers: bool, style: str,
-         keep_external_unused_imports: bool, keep_unused_imports: bool,
+def main(file_path: str,
+         only_imports: bool = False,
+         in_place: bool = False,
+         show_line_numbers: bool = False,
+         style: str = 'pep8',
+         keep_external_unused_imports: bool = False,
+         keep_unused_imports: bool = False,
          **kwargs: str) -> None:
     out_file = sort_imports(file_path, only_imports,
                             keep_external_unused_imports, keep_unused_imports)
