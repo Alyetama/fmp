@@ -17,13 +17,13 @@ pip install fmp
 ## ⌨️ Usage
 
 ```
-usage: fmp [-h] [-s {pep8,google,yapf,facebook}] [-i] [-o] [-n] [-k]
-             files [files ...]
+usage: fmp [-h] [-s {pep8,google,yapf,facebook}] [-i] [-o] [-n] [-k] [-K]
+           files [files ...]
 
 positional arguments:
-  files                 files to format
+  files                 Files to format
 
-optional arguments:
+options:
   -h, --help            show this help message and exit
   -s {pep8,google,yapf,facebook}, --style {pep8,google,yapf,facebook}
                         Formatting style
@@ -31,7 +31,9 @@ optional arguments:
   -o, --only-imports    Only return sorted import statements
   -n, --show-line-numbers
                         Render a column for line numbers
-  -k, --keep-external-unused-imports
+  -k, --keep-unused-imports
+                        Keep the import statement of all unused modules
+  -K, --keep-external-unused-imports
                         Keep the import statement of external unused modules
 ```
 
